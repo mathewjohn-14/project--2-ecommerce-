@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Search Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #searchBox {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    .product {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .product h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+      color: #444;
+    }
+    .product p {
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛒 Product Search</h1>
+  <input type="text" id="searchBox" placeholder="Search for a product...">
+
+  <div class="product-list" id="productList"></div>
+
+  <script>
+    // Sample product dataset
+    const products = [
+      { name: "iPhone 15", description: "Latest Apple smartphone", image: "https://via.placeholder.com/200x150?text=iPhone+15" },
+      { name: "Samsung Galaxy S24", description: "Flagship Samsung phone", image: "https://via.placeholder.com/200x150?text=Galaxy+S24" },
+      { name: "MacBook Air", description: "Lightweight Apple laptop", image: "https://via.placeholder.com/200x150?text=MacBook+Air" },
+      { name: "Dell XPS 13", description: "Premium Windows laptop", image: "https://via.placeholder.com/200x150?text=Dell+XPS+13" },
+      { name: "Sony WH-1000XM5", description: "Noise-cancelling headphones", image: "https://via.placeholder.com/200x150?text=Sony+XM5" },
+      { name: "Apple Watch Ultra", description: "Smartwatch for fitness", image: "https://via.placeholder.com/200x150?text=Apple+Watch+Ultra" }
+    ];
+
+    const productList = document.getElementById("productList");
+    const searchBox = document.getElementById("searchBox");
+
+    // Function to display products
+    function displayProducts(filteredProducts) {
+      productList.innerHTML = "";
+      filteredProducts.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("product");
+        productDiv.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+        `;
+        productList.appendChild(productDiv);
+      });
+    }
+
+    // Initial display
+    displayProducts(products);
+
+    // Search functionality
+    searchBox.addEventListener("input", function() {
+      const query = searchBox.value.toLowerCase();
+      const filtered = products.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.description.toLowerCase().includes(query)
+      );
+      displayProducts(filtered);
+    });
+  </script>
+</body>
+</html>
