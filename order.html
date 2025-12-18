@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Orders</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f3f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2874f0;
+    }
+
+    .order-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .order-info {
+      flex: 1;
+    }
+
+    .order-info h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .order-info p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .view-btn {
+      background-color: #2874f0;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .view-btn:hover {
+      background-color: #0b5ed7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>My Orders</h1>
+    <div id="order-list" class="order-list"></div>
+  </div>
+
+  <script>
+    const orders = [
+      {
+        id: 1,
+        product: "Samsung Galaxy M14",
+        date: "2025-12-15",
+        status: "Delivered",
+        link: "https://www.flipkart.com/samsung-galaxy-m14"
+      },
+      {
+        id: 2,
+        product: "Boat Rockerz 255 Pro+",
+        date: "2025-12-10",
+        status: "Shipped",
+        link: "https://www.flipkart.com/boat-rockerz-255-pro-plus"
+      },
+      {
+        id: 3,
+        product: "HP Pavilion Laptop",
+        date: "2025-12-05",
+        status: "Out for Delivery",
+        link: "https://www.flipkart.com/hp-pavilion-laptop"
+      }
+    ];
+
+    const orderList = document.getElementById("order-list");
+
+    orders.forEach(order => {
+      const card = document.createElement("div");
+      card.className = "order-card";
+
+      card.innerHTML = `
+        <div class="order-info">
+          <h3>${order.product}</h3>
+          <p>Order Date: ${order.date}</p>
+          <p>Status: ${order.status}</p>
+        </div>
+        <button class="view-btn" onclick="window.open('${order.link}', '_blank')">View Product</button>
+      `;
+
+      orderList.appendChild(card);
+    });
+  </script>
+</body>
+</html>
