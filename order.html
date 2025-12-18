@@ -14,7 +14,7 @@
 
     .container {
       width: 90%;
-      max-width: 800px;
+      max-width: 900px;
       margin: 40px auto;
       background-color: #fff;
       padding: 20px;
@@ -29,10 +29,18 @@
 
     .order-card {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 20px;
       border-bottom: 1px solid #ddd;
-      padding: 15px 0;
+      padding: 20px 0;
+      align-items: center;
+    }
+
+    .product-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
 
     .order-info {
@@ -49,16 +57,39 @@
       color: #555;
     }
 
-    .view-btn {
+    .status {
+      font-weight: bold;
+    }
+
+    .status.delivered {
+      color: green;
+    }
+
+    .status.shipped {
+      color: orange;
+    }
+
+    .status.pending {
+      color: red;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn {
       background-color: #2874f0;
       color: white;
       border: none;
       padding: 10px 16px;
       border-radius: 4px;
       cursor: pointer;
+      text-align: center;
     }
 
-    .view-btn:hover {
+    .btn:hover {
       background-color: #0b5ed7;
     }
   </style>
@@ -72,24 +103,30 @@
   <script>
     const orders = [
       {
-        id: 1,
+        id: "ORD123456",
         product: "Samsung Galaxy M14",
         date: "2025-12-15",
         status: "Delivered",
+        price: "₹13,499",
+        image: "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/m/o/b/-original-imagzjhwtfthcmzz.jpeg",
         link: "https://www.flipkart.com/samsung-galaxy-m14"
       },
       {
-        id: 2,
+        id: "ORD123457",
         product: "Boat Rockerz 255 Pro+",
         date: "2025-12-10",
         status: "Shipped",
+        price: "₹1,299",
+        image: "https://rukminim2.flixcart.com/image/312/312/kxgfzbk0/headphone/y/k/6/rockerz-255-pro-plus-boat-original-imag9v6gqz8zqz8z.jpeg",
         link: "https://www.flipkart.com/boat-rockerz-255-pro-plus"
       },
       {
-        id: 3,
+        id: "ORD123458",
         product: "HP Pavilion Laptop",
         date: "2025-12-05",
-        status: "Out for Delivery",
+        status: "Pending",
+        price: "₹56,990",
+        image: "https://rukminim2.flixcart.com/image/312/312/xif0q/computer/4/0/k/-original-imaguyh9zqzqzqzq.jpeg",
         link: "https://www.flipkart.com/hp-pavilion-laptop"
       }
     ];
@@ -100,13 +137,21 @@
       const card = document.createElement("div");
       card.className = "order-card";
 
+      const statusClass = order.status.toLowerCase().replace(/\s/g, '');
+
       card.innerHTML = `
+        <img src="${order.image}" alt="${order.product}" class="product-img" />
         <div class="order-info">
           <h3>${order.product}</h3>
-          <p>Order Date: ${order.date}</p>
-          <p>Status: ${order.status}</p>
+          <p><strong>Order ID:</strong> ${order.id}</p>
+          <p><strong>Order Date:</strong> ${order.date}</p>
+          <p><strong>Price:</strong> ${order.price}</p>
+          <p class="status ${statusClass}">Status: ${order.status}</p>
         </div>
-        <button class="view-btn" onclick="window.open('${order.link}', '_blank')">View Product</button>
+        <div class="btn-group">
+          <button class="btn" onclick="window.open('${order.link}', '_blank')">View Product</button>
+          <button class="btn" onclick="alert('Tracking info for ${order.id} will be available soon.')">Track Order</button>
+        </div>
       `;
 
       orderList.appendChild(card);
