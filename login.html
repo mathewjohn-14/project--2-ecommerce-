@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Shop Login & Dashboard</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Login Box */
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      width: 400px;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .login-box h2 {
+      margin-bottom: 25px;
+      color: #333;
+      font-size: 28px;
+    }
+
+    .input-box {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+      color: #555;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .signup-text {
+      margin-top: 20px;
+      font-size: 15px;
+    }
+
+    .signup-text a {
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Dashboard Layout */
+    .dashboard {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      background: #f9f9f9;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+
+    nav {
+      width: 220px;
+      background: #333;
+      color: white;
+      padding-top: 20px;
+      flex-shrink: 0;
+    }
+
+    nav a {
+      display: block;
+      padding: 12px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      background: #444;
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 30px;
+      background: #fff;
+      overflow-y: auto;
+    }
+
+    .content h2 {
+      margin-top: 0;
+      font-size: 26px;
+      color: #333;
+    }
+
+    .content p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .product {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .product img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .product h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+    }
+
+    .product p {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .cart {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f1f1f1;
+      border-radius: 8px;
+    }
+
+    .cart h3 {
+      margin-top: 0;
+    }
+
+    .cart ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .cart ul li {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Section -->
+  <div class="login-box" id="loginBox">
+    <h2>Login to E-Shop</h2>
+    <form id="loginForm">
+      <div class="input-box">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter your username" required>
+      </div>
+      <div class="input-box">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit">Login</button>
+      <p class="signup-text">Don't have an account? <a href="#">Sign up</a></p>
+    </form>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div class="dashboard" id="dashboard">
+    <header>Welcome to Your E-Shop Dashboard</header>
+    <div class="container">
+      <nav>
+        <a href="#">🏠 Home</a>
+        <a href="#">🛍 Products</a>
+        <a href="#">📦 Orders</a>
+        <a href="#">👤 Profile</a>
+        <a href="#">🛒 Cart</a>
+        <a href="#" id="logout">🚪 Logout</a>
+      </nav>
+      <div class="content">
+        <h2 id="greeting">Hello!</h2>
+        <p>Browse our featured products below:</p>
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+          <div class="product">
+            <img src="https://m.media-amazon.com/images/I/71vZypjNkRL._AC_UL480_FMwebp_QL65_.jpg" alt="Sneakers">
+            <h3>Cool Sneakers</h3>
+            <p>₹2,499</p>
+            <button onclick="addToCart('Cool Sneakers')">Add to Cart</button>
+          </div>
+          <div class="product">
+            <img src="https://m.media-amazon.com/images/I/61vJp3l+VjL._AC_UL480_FMwebp_QL65_.jpg" alt="Perfume">
+            <h3>Luxury Perfume</h3>
+            <p>₹3,999</p>
+            <button onclick="addToCart('Luxury Perfume')">Add to Cart</button>
+          </div>
+          <div class="product">
+            <img src="https://m.media-amazon.com/images/I/61kLrZz9VqL._AC_UL480_FMwebp_QL65_.jpg" alt="Headphones">
+            <h3>Wireless Headphones</h3>
+            <p>₹5,499</p>
+            <button onclick="addToCart('Wireless Headphones')">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Cart Section -->
+        <div class="cart" id="cart">
+          <h3>Your Cart</h3>
+          <ul id="cartItems"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple login check (demo only!)
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "student" && password === "1234") {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("dashboard").style.display = "flex";
+        document.getElementById("greeting").textContent = "Hello, " + username + "!";
+      } else {
+        alert("Invalid credentials. Try again!");
+      }
+    });
+
+    // Logout button
+    document.getElementById("logout").addEventListener("click", function(event) {
+      event.preventDefault();
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById("loginBox").style.display = "block";
+    });
+
+    // Cart functionality
+    function addToCart(item) {
+      const cartItems = document.getElementById("cartItems");
+      const li = document.createElement("li");
+      li.textContent = item;
+      cartItems.appendChild(li);
+    }
+  </script>
