@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VIT Cart</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f1f3f6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #2874f0;
+      color: white;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      margin: 20px;
+    }
+    .cart-items {
+      flex: 2;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+    .item-details {
+      flex: 1;
+    }
+    .item-details h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .item-details p {
+      margin: 5px 0;
+      color: #555;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+    }
+    .quantity-controls button {
+      background: #2874f0;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 3px;
+    }
+    .quantity-controls span {
+      margin: 0 10px;
+      font-size: 16px;
+    }
+    .price {
+      font-weight: bold;
+      font-size: 16px;
+      margin-left: 20px;
+    }
+    .summary {
+      flex: 1;
+      margin-left: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+    .summary h3 {
+      margin-top: 0;
+    }
+    .summary p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    .checkout-btn {
+      background: #fb641b;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 3px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>Students Cart</header>
+  <div class="container">
+    <!-- Cart Items -->
+    <div class="cart-items" id="cart-items"></div>
+
+    <!-- Summary -->
+    <div class="summary">
+      <h3>Price Details</h3>
+      <p>Total Items: <span id="cart-count">0</span></p>
+      <p>Total Price: ₹<span id="cart-total">0</span></p>
+      <button class="checkout-btn">Place Order</button>
+    </div>
+  </div>
+
+  <script>
+    class Cart {
+      constructor() {
+        this.items = [];
+      }
+      addItem(product, quantity = 1) {
+        const existingItem = this.items.find(item => item.id === product.id);
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          this.items.push({ ...product, quantity });
+        }
+        renderCart();
+      }
+      removeItem(productId) {
+        this.items = this.items.filter(item => item.id !== productId);
+        renderCart();
+      }
+      updateQuantity(productId, change) {
+        const item = this.items.find(item => item.id === productId);
+        if (item) {
+          item.quantity += change;
+          if (item.quantity <= 0) this.removeItem(productId);
+        }
+        renderCart();
+      }
+      getTotal() {
+        return this.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      }
+      getItemCount() {
+        return this.items.reduce((count, item) => count + item.quantity, 0);
+      }
+      getCart() {
+        return this.items;
+      }
+    }
+
+    const cart = new Cart();
+
+    // Sample products
+    cart.addItem({ id: 1, name: "Laptop", price: 50000, img: "https://via.placeholder.com/80" });
+    cart.addItem({ id: 2, name: "Mouse", price: 800, img: "https://via.placeholder.com/80" });
+    cart.addItem({ id: 3, name: "Keyboard", price: 1500, img: "https://via.placeholder.com/80" });
+
+    function renderCart() {
+      const cartItemsDiv = document.getElementById('cart-items');
+      cartItemsDiv.innerHTML = '';
+      cart.getCart().forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}">
+          <div class="item-details">
+            <h4>${item.name}</h4>
+            <p>₹${item.price}</p>
+            <div class="quantity-controls">
+              <button onclick="cart.updateQuantity(${item.id}, -1)">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="cart.updateQuantity(${item.id}, 1)">+</button>
+              <button onclick="cart.removeItem(${item.id})" style="margin-left:15px;background:#ff3f6c;">Remove</button>
+            </div>
+          </div>
+          <div class="price">₹${item.price * item.quantity}</div>
+        `;
+        cartItemsDiv.appendChild(div);
+      });
+      document.getElementById('cart-count').textContent = cart.getItemCount();
+      document.getElementById('cart-total').textContent = cart.getTotal();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
